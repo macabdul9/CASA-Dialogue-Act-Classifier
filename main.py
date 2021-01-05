@@ -40,9 +40,9 @@ if __name__=="__main__":
     )
 
 
-    base = ContextAwareDAC()
-    tokenizer = AutoTokenizer.from_pretrained(config['model_name'])
-    model = LightningModel(model=base, tokenizer=tokenizer, config=config)
+    # base = ContextAwareDAC()
+    # tokenizer = AutoTokenizer.from_pretrained(config['model_name'])
+    model = LightningModel(config=config)
     
     trainer = pl.Trainer(
         logger=logger,

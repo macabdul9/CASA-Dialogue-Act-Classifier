@@ -5,6 +5,7 @@ class ConversationRNN(nn.Module):
     def __init__(self, input_size=1, hidden_size=768, bidirectional=True, num_layers=1):
         super(ConversationRNN, self).__init__()
         
+        
         self.rnn = nn.RNN(
             input_size=input_size,
             hidden_size=hidden_size, 

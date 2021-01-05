@@ -10,7 +10,7 @@ class UtteranceRNN(nn.Module):
         
         
         # embedding layer is replaced by pretrained roberta's embedding
-        self.base = self.base = AutoModel.from_pretrained(pretrained_model_name_or_path=model_name)
+        self.base = AutoModel.from_pretrained(pretrained_model_name_or_path=model_name)
         # freeze the model parameters
         for param in self.base.parameters():
             param.requires_grad = False

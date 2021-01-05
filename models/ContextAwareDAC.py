@@ -1,20 +1,20 @@
 import torch.nn as nn
 import torch
-from UtteranceRNN import UtteranceRNN
-from ConversationRNN import ConversationRNN
-from ContextAwareAttention import ContextAwareAttention
+from .UtteranceRNN import UtteranceRNN
+from .ConversationRNN import ConversationRNN
+from .ContextAwareAttention import ContextAwareAttention
 
 
 
 class ContextAwareDAC(nn.Module):
     
-    def __init__(self, model_name="roberta-base", hidden_size=768, num_classes=18):
+    def __init__(self, model_name="roberta-base", hidden_size=768, num_classes=18, device=torch.device("cpu")):
         
         super(ContextAwareDAC, self).__init__()
         
         self.in_features = 2*hidden_size
         
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = device
         
         # utterance encoder model
         self.utterance_rnn = UtteranceRNN(model_name=model_name, hidden_size=hidden_size)

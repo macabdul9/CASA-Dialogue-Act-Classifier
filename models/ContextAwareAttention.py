@@ -6,6 +6,7 @@ class ContextAwareAttention(nn.Module):
     def __init__(self, hidden_size=1536, output_size=768, seq_len=128):
         super(ContextAwareAttention, self).__init__()
         
+        
         # context aware self attention
         self.fc_1 = nn.Linear(in_features=hidden_size, out_features=output_size, bias=False)
         self.fc_3 = nn.Linear(in_features=hidden_size//2, out_features=output_size, bias=True)
