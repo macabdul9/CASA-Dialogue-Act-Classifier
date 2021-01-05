@@ -10,7 +10,7 @@ config = {
     "label_field":"act_label_1",
     
     "max_len":256,
-    "batch_size":16,
+    "batch_size":32,
     "num_workers":4,
     
     # model
@@ -28,7 +28,7 @@ config = {
     "filepath":"./checkpoints/{epoch}-{val_accuracy:4f}",
     "precision":32,
     "average":"micro",
-    "epochs":10,
+    "epochs":2,
     "device":torch.device("cuda" if torch.cuda.is_available() else "cpu"),
     
 }
