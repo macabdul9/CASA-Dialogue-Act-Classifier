@@ -6,8 +6,8 @@ class DADataset(Dataset):
     __label_dict = dict()
     
     def __init__(self, tokenizer, data, text_field = "clean_text", label_field="act_label_1", max_len=512):
-        self.text = data['train'][text_field]
-        self.label = data['train'][label_field]
+        self.text = list(data[text_field]) #data['train'][text_field]
+        self.label = list(data[label_field]) #['train'][label_field]
         self.tokenizer = tokenizer
         self.max_len = max_len
         
