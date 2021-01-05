@@ -6,12 +6,17 @@ from Trainer import LightningModel
 from pytorch_lightning.callbacks import EarlyStopping, ProgressBar, ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
 import pytorch_lightning as pl
-
-
+import os
 
 
 if __name__=="__main__":
 
+    # create the checkpoints dir
+    path = os.path.join(os.getcwd(), "checkpoints")
+    if not os.path.isdir(path):
+        os.mkdir(path)
+
+        
     logger = WandbLogger(
         name="grammarly-context-aware-attention",
         save_dir=config["save_dir"],
@@ -49,12 +54,13 @@ if __name__=="__main__":
         gpus=[0],
         checkpoint_callback=checkpoints,
         callbacks=[early_stopping],
-        default_root_dir="../working/",
+        default_root_dir="./models/",
         max_epochs=config["epochs"],
         precision=config["precision"],
         automatic_optimization=True
     )
     
+        
     trainer.fit(model)
     
     trainer.test(model)

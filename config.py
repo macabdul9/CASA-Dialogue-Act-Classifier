@@ -1,9 +1,10 @@
 import torch
+import os
 
 config = {
     
     # data 
-    "data_dir":"/home/macab/research/CASA-Dialogue-Act-Classifier/data/",
+    "data_dir":os.path.join(os.getcwd(), 'data'),
     "dataset":"switchboard",
     "text_field":"clean_text",
     "label_field":"act_label_1",
@@ -18,13 +19,13 @@ config = {
     "num_classes":54, # there were 54 classes in switchboard corpus 
     
     # training
-    "save_dir":"../working/",
+    "save_dir":"./",
     "project":"dialogue-act-classification",
     "run_name":"context-aware-attention-dac",
     "lr":1e-5,
     "monitor":"val_accuracy",
     "min_delta":0.001,
-    "filepath":"../working/{epoch}-{val_accuracy:4f}",
+    "filepath":"./checkpoints/{epoch}-{val_accuracy:4f}",
     "precision":32,
     "average":"micro",
     "epochs":50,
