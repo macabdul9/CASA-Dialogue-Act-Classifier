@@ -4,7 +4,7 @@ PyTorch implementation of the paper [**Dialogue Act Classification with Context-
 - This implementation has simple softmax classifier but paper has CRF classifier.
 
 
-## To run this on switchboard dialogue act dataset:
+## To train this on switchboard dialogue act dataset:
 - Set the dataset path (absolute path) as per your system configuration, in the `config.py (line 6)`.   
 - Install the dependencies in a separate python environment and activate the environment.
 - [Optional] Disable the wandb logger if you don't want to use it by commenting the logger code (`line 15-20 in main.py`) and don't pass it to Lightning trainer (`line 32 in main.py`), and then comment then comment the logging code in Trainer.py (`line 70 and 95`).  By default Lightning will log to tensorboard logger.
@@ -12,7 +12,7 @@ PyTorch implementation of the paper [**Dialogue Act Classification with Context-
 - Model will be trained and best checkpoint will be saved. 
   
 
-## To on this on any dialogue act dataset 
+## To train this on any dialogue act dataset 
 
 - Paste you data into `data dir`, your dataset should have following structure
     - dataset_name
