@@ -27,7 +27,7 @@ config = {
     "filepath":"../working/{epoch}-{val_accuracy:4f}",
     "precision":32,
     "average":"micro",
-    "epochs":1,
+    "epochs":50,
     "device":torch.device("cuda" if torch.cuda.is_available() else "cpu"),
     
 }
