@@ -2,21 +2,15 @@
 import torch
 import os
 import pandas as pd
-import numpy as np
-import random 
 import gc
 
 # data
 from datasets import load_dataset
 from torch.utils.data import Dataset, DataLoader
-from torchtext.data import BucketIterator
-
-from transformers import BertConfig, BertTokenizerFast, BertModel
-from transformers import AutoConfig, AutoModel, AutoTokenizer
 
 # models 
 import torch.nn as nn
-from transformers import AutoTokenizer
+from transformers import AutoConfig, AutoTokenizer, AutoModel
 from models.ContextAwareDAC import ContextAwareDAC
 
 # training and evaluation
@@ -73,7 +67,7 @@ class LightningModel(pl.LightningModule):
     
     def val_dataloader(self):
         #valid_data = load_dataset("csv", data_files=os.path.join(self.config['data_dir'], self.config['dataset'], self.config['dataset']+"_valid.csv"))
-        valid_data = pd.read_csv(os.path.join(self.config['data_dir'], self.config['dataset'], self.config['dataset']+"_test.csv")) # valid has ~40k samples this is valid is same as test to run it quickely, test has ~16k samples
+        valid_data = pd.read_csv(os.path.join(self.config['data_dir'], self.config['dataset'], self.config['dataset']+"_valid.csv")) # valid has ~40k samples this is valid is same as test to run it quickely, test has ~16k samples
         valid_dataset = DADataset(tokenizer=self.tokenizer, data=valid_data, max_len=self.config['max_len'], text_field=self.config['text_field'], label_field=self.config['label_field'])
         valid_loader = DataLoader(dataset=valid_dataset, batch_size=self.config['batch_size'], shuffle=False, num_workers=self.config['num_workers'])
         return valid_loader

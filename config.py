@@ -28,7 +28,7 @@ config = {
     "filepath":"./checkpoints/{epoch}-{val_accuracy:4f}",
     "precision":32,
     "average":"micro",
-    "epochs":10,
+    "epochs":100,
     "device":torch.device("cuda" if torch.cuda.is_available() else "cpu"),
     
 }
