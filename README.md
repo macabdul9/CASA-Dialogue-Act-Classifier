@@ -3,6 +3,7 @@ PyTorch implementation of the paper [**Dialogue Act Classification with Context-
 - In this implementation contextualized embedding (ie: BERT, RoBERta, etc ) (freezed hence not trainable) is used while paper uses combination of GloVe and ELMo.
 - This implementation has simple softmax classifier but paper has CRF classifier.
 
+###  [Kaggle Kernel to train it on switchboard dialogue act corpus](https://www.kaggle.com/eabdul/casa-dialogue-act-classifier)
 
 ## To train this on switchboard dialogue act dataset:
   1. Download the cleaned [Switchboard](https://www.dropbox.com/s/bpkt44sijmhfbxq/switchboard.zip) data inside the `data/` and unzip it.
