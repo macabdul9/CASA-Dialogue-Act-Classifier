@@ -6,9 +6,10 @@ config = {
     # data 
     "data_dir":os.path.join(os.getcwd(), 'data'),
     "dataset":"switchboard",
-    "text_field":"clean_text",
-    "label_field":"act_label_1",
-    
+    "text_field":"Text",
+    # "label_field":"act_label_1",
+    "label_field":"DamslActTag",
+
     "max_len":256,
     "batch_size":64,
     "num_workers":4,
@@ -16,7 +17,7 @@ config = {
     # model
     "model_name":"roberta-base", #roberta-base
     "hidden_size":768,
-    "num_classes":53, # there were 54 classes in switchboard corpus 
+    "num_classes":43, # there are 43 classes in switchboard corpus
     
     # training
     "save_dir":"./",
