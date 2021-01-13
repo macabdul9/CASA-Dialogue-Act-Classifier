@@ -1,6 +1,6 @@
 
 from config import config
-from transformers import AutoTokenizer
+# from transformers import AutoTokenizer
 from models.ContextAwareDAC import ContextAwareDAC
 from Trainer import LightningModel
 from pytorch_lightning.callbacks import EarlyStopping, ProgressBar, ModelCheckpoint
