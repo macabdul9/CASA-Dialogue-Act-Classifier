@@ -40,7 +40,7 @@ if __name__=="__main__":
     
     trainer = pl.Trainer(
         logger=logger,
-        # gpus=[0],
+        gpus=[0],
         checkpoint_callback=checkpoints,
         callbacks=[early_stopping],
         default_root_dir="./models/",
