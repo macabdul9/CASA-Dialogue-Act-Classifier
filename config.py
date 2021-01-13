@@ -7,8 +7,9 @@ config = {
     "data_dir":os.path.join(os.getcwd(), 'data'),
     "dataset":"switchboard",
     "text_field":"clean_text",
-    "label_field":"act_label_1",
-    
+    # "label_field":"act_label_1",
+    "label_field":"act_tag",
+
     "max_len":256,
     "batch_size":64,
     "num_workers":4,
