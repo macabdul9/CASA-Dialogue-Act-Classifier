@@ -33,17 +33,6 @@ if __name__=="__main__":
         monitor=config["monitor"],
         save_top_k=1
     )
-    trainer = pl.Trainer(
-        logger=logger,
-        # gpus=[0],
-        checkpoint_callback=checkpoints,
-        callbacks=[early_stopping],
-        default_root_dir="../working/",
-        max_epochs=config["epochs"],
-        precision=config["precision"],
-        automatic_optimization=True
-    )
-
 
     # base = ContextAwareDAC()
     # tokenizer = AutoTokenizer.from_pretrained(config['model_name'])

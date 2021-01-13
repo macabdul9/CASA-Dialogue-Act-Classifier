@@ -35,7 +35,7 @@ class LightningModel(pl.LightningModule):
         self.model = ContextAwareDAC(
             model_name=self.config['model_name'],
             hidden_size=self.config['hidden_size'],
-            num_classes=self.config['hidden_size'],
+            num_classes=self.config['num_classes'],
             device=self.config['device']
         )
         self.tokenizer = AutoTokenizer.from_pretrained(config['model_name'])
