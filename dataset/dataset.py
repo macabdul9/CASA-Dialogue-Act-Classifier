@@ -12,8 +12,11 @@ class DADataset(Dataset):
         self.max_len = max_len
         
         
-        # build the label dictionary 
-        DADataset.__label_dict.update(dict(zip(list(set(self.label)), torch.arange(start=0, end=len(list(set(self.label))), dtype=int).tolist())))
+        # build/update the label dictionary 
+        classes = set(self.label)
+        for cls in classes:
+            if cls not in DADataset.__label_dict.keys():
+                DADataset.__label_dict[cls]=len(DADataset.__label_dict.keys())
     
     def __len__(self):
         return len(self.text)
