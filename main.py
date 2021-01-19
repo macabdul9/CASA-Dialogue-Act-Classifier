@@ -38,16 +38,19 @@ if __name__=="__main__":
     # tokenizer = AutoTokenizer.from_pretrained(config['model_name'])
     model = LightningModel(config=config)
     
-    trainer = pl.Trainer(
-        logger=logger,
-        gpus=[0],
-        checkpoint_callback=checkpoints,
-        callbacks=[early_stopping],
-        default_root_dir="./models/",
-        max_epochs=config["epochs"],
-        precision=config["precision"],
-        automatic_optimization=True
-    )
+    if config['restart'] and config['restart_checkpoint']:
+        trainer = pl.Trainer(resume_from_checkpoint=config['restart_checkpoint'])
+    else:
+        trainer = pl.Trainer(
+            logger=logger,
+            gpus=[0],
+            checkpoint_callback=checkpoints,
+            callbacks=[early_stopping],
+            default_root_dir="./models/",
+            max_epochs=config["epochs"],
+            precision=config["precision"],
+            automatic_optimization=True
+        )
     
         
     trainer.fit(model)
