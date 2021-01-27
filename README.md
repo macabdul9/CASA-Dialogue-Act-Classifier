@@ -6,16 +6,14 @@ PyTorch implementation of the paper [**Dialogue Act Classification with Context-
 ###  [Kaggle Kernel to train it on switchboard dialogue act corpus](https://www.kaggle.com/eabdul/casa-dialogue-act-classifier)
 
 ## To train this on switchboard dialogue act dataset:
-  1. Download the cleaned [Switchboard](https://www.dropbox.com/s/bpkt44sijmhfbxq/switchboard.zip) data inside the `data/` and unzip it.
-Navigate to `data/` using: `cd data/`
-  2. Download the [Switchboard](https://www.dropbox.com/s/bpkt44sijmhfbxq/switchboard.zip) dataset: `wget https://www.dropbox.com/s/bpkt44sijmhfbxq/switchboard.zip?`
-  3. Unzip the dataset: `unzip switchboard.zip`
-  4. Navigate to the main dir: `cd ..`
-  5. Install the dependencies in a separate python environment.
-  6. [Optional] Change the project_name and run_name in the logger or disable the wandb logger if you don't want to use it by commenting the logger code (`line 15-20 in main.py`) and don't pass it to Lightning trainer (`line 32 in main.py`), and then comment the logging code in `Trainer.py (line 70 and 95)`.  By default Lightning will log to tensorboard logger.
-  7. [Optional] Change the parameters (`batch_size, lr, epochs etc`) in `config.py`.
-  8. Run main.py using `python main.py`
-  9. Model will be trained and best checkpoint will be saved. 
+  1. Navigate to `data/` using: `cd data/`
+  2. Unzip the dataset: `unzip switchboard.zip`
+  3. Navigate to the main dir: `cd ..`
+  4. Install the dependencies in a separate python environment.
+  5. [Optional] Change the project_name and run_name in the logger or disable the wandb logger if you don't want to use it by commenting the logger code (`line 15-20 in main.py`) and don't pass it to Lightning trainer (`line 32 in main.py`), and then comment the logging code in `Trainer.py (line 70 and 95)`.  By default Lightning will log to tensorboard logger.
+  6. [Optional] Change the parameters (`batch_size, lr, epochs etc`) in `config.py`.
+  7. Run main.py using `python main.py`
+  8. Model will be trained and best checkpoint will be saved. 
   
 
 ## To train this on any dialogue act dataset 
