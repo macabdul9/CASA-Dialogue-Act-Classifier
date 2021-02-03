@@ -42,7 +42,7 @@ class LightningModel(pl.LightningModule):
 
         train_data = pd.read_csv(os.path.join(self.config['data_dir'], self.config['dataset'], self.config['dataset']+"_train.csv"))
         train_dataset = DADataset(tokenizer=self.tokenizer, data=train_data, max_len=self.config['max_len'], text_field=self.config['text_field'], label_field=self.config['label_field'])
-        self.classes = train_dataset.label_dict
+        self.classes = train_dataset.label_dict()
 
     def forward(self, batch):
         logits  = self.model(batch)
