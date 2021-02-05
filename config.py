@@ -17,7 +17,7 @@ config = {
     # model
     "model_name":"roberta-base", #roberta-base
     "hidden_size":768,
-    "num_classes":43, # there are 43 classes in switchboard corpus
+    "num_classes":42, # there are 43 classes in switchboard corpus
     
     # training
     "save_dir":"./",

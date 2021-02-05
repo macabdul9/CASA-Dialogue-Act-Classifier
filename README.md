@@ -28,6 +28,14 @@ PyTorch implementation of the paper [**Dialogue Act Classification with Context-
 4. Follow from steps 5 of the switchboard.
   
 
+## To perform inference after training
+1. Create a text file with the utterances you want to tag, one per line.
+2. Modify `ckpt_path` in [predict.py](predict.py).
+3. Run `python predict.py <path_to_text_file>`. 
+   Each utterance will be tagged with its speech act in output file
+   (same basename as your input file, with `.out` extension)
+
+
 **Note**: Feel free to create to an issue if you find any problem. Also you're welcome to create PR if you want to add something. Here is the list of components one can add:
 - Hyperparameter Search
 - More dialogue act classification models which are not open-sourced. 

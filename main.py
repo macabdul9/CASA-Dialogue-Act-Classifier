@@ -26,7 +26,7 @@ if __name__=="__main__":
     early_stopping = EarlyStopping(
         monitor=config["monitor"],
         min_delta=config["min_delta"],
-        patience=5,
+        patience=30,
     )
     checkpoints = ModelCheckpoint(
         filepath=config["filepath"],
