@@ -1,30 +1,10 @@
-from config import config
+import pandas as pd
+import sys
 import torch
 from transformers import AutoTokenizer
 
+from config import config
 from Trainer import LightningModel
-
-
-def run_test(checkpoint_path, config, device='cpu'):
-    my_device = torch.device(device)
-
-    model = LightningModel(config=config)
-    model = model.to(my_device)
-    model.load_state_dict(torch.load(checkpoint_path, map_location=my_device)['state_dict'])
-
-    test_dataloader = model.test_dataloader()
-    batch = next(iter(test_dataloader))
-    print(batch['text'])
-    print(f"Labels: {batch['label'].squeeze()}")
-
-    example_input = {'input_ids': batch['input_ids'].to(my_device),
-                     'attention_mask': batch['attention_mask'].to(my_device),
-                     'seq_len': batch['seq_len'].to(my_device)}
-
-    with torch.no_grad():
-        # model prediction labels
-        outputs = model.model(example_input).argmax(dim=-1).tolist()
-    print(f"Predictions: {outputs}")
 
 
 class DialogClassifier:
@@ -69,19 +49,28 @@ class DialogClassifier:
         return outputs
 
 
-if __name__ == '__main__':
+def main(argv):
     ckpt_path = 'checkpoints/epoch=28-val_accuracy=0.746056.ckpt'
-    # run_test(ckpt_path, config, device='cpu')
 
     clf = DialogClassifier(checkpoint_path=ckpt_path, config=config, my_device='cpu')
     classes = clf.get_classes()
     inv_classes = {v: k for k, v in classes.items()}  # Invert classes dictionary
 
-    testing_data = ['Uh-huh.', 'Well, I think its a pretty good idea.', 'Okay.']
-    predictions = clf.predict(testing_data)
+    with open(argv[0], 'r') as fi:
+        utterances = fi.readlines()
+
+    predictions = clf.predict(utterances)
+    predicted_acts = [inv_classes[prediction] for prediction in predictions]
+
+    results = pd.DataFrame(list(zip(utterances, predicted_acts)), columns=["DamslActTag", "Text"])
+
     print("-------------------------------------")
     print("Predicted Speech Act, Utterance")
     print("-------------------------------------")
 
-    for utterance, prediction in zip(testing_data, predictions):
-        print(f"{inv_classes[prediction]}, {utterance}")
+    for utterance, prediction in zip(utterances, predicted_acts):
+        print(f"{prediction}, {utterance}")
+
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
