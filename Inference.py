@@ -87,6 +87,7 @@ class DialogClassifier:
             seq_len = len(self.tokenizer.tokenize(text))
 
             return input_encoding['input_ids'].squeeze(), input_encoding['attention_mask'].squeeze(), seq_len
+
         # there is probably a more optimized way to map the inputs
         inputs['input_ids'], inputs['attention_mask'], inputs['seq_len'] = np.array(list(zip(*map(encode, data))))
         return inputs
