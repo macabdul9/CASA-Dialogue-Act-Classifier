@@ -1,13 +1,11 @@
 from config import config
-import numpy as np
 import torch
+from transformers import AutoTokenizer
 
 from Trainer import LightningModel
-from transformers import AutoTokenizer
 
 
 def run_test(checkpoint_path, config, device='cpu'):
-    # my_device = torch.device('cuda')
     my_device = torch.device(device)
 
     model = LightningModel(config=config)
@@ -41,23 +39,23 @@ class DialogClassifier:
     def dataloader(self, data):
         if not isinstance(data, list):
             data = list(data)
+
         inputs = dict()
 
-        def encode(text):
-            input_encoding = self.tokenizer.encode_plus(
-                text=text,
-                truncation=True,
-                max_length=self.config['max_len'],
-                return_tensors='pt',
-                return_attention_mask=True,
-                padding='max_length',
-            )
-            seq_len = len(self.tokenizer.tokenize(text))
+        input_encoding = self.tokenizer.batch_encode_plus(
+            data,
+            truncation=True,
+            max_length=self.config['max_len'],
+            return_tensors='pt',
+            return_attention_mask=True,
+            padding='max_length',
+        )
+        seq_len = [len(self.tokenizer.tokenize(utt)) for utt in data]
 
-            return input_encoding['input_ids'].squeeze(), input_encoding['attention_mask'].squeeze(), seq_len
+        inputs['input_ids'] = input_encoding['input_ids'].squeeze()
+        inputs['attention_mask'] = input_encoding['attention_mask'].squeeze()
+        inputs['seq_len'] = torch.Tensor(seq_len)
 
-        # there is probably a more optimized way to map the inputs
-        inputs['input_ids'], inputs['attention_mask'], inputs['seq_len'] = np.array(list(zip(*map(encode, data))))
         return inputs
 
     def predict(self, df):
@@ -66,16 +64,14 @@ class DialogClassifier:
             # model prediction labels
             outputs = self.model.model(input).argmax(dim=-1).tolist()
         return outputs
-        # ort_outs = self.ort_session.run(None, self.dataloader(df))
-        # return ort_outs
 
 
 if __name__ == '__main__':
     ckpt_path = 'checkpoints/epoch=28-val_accuracy=0.746056.ckpt'
-    run_test(ckpt_path, config, device='cpu')
+    # run_test(ckpt_path, config, device='cpu')
 
-    clf = DialogClassifier(checkpoint_path=ckpt_path, config=config)
+    clf = DialogClassifier(checkpoint_path=ckpt_path, config=config, my_device='cpu')
     testing_data = ['Uh-huh.', 'Well, I think its a pretty good idea.', 'Okay.']
-    print(clf.predict(testing_data))
-
-
+    predictions = clf.predict(testing_data)
+    for utterance, prediction in zip(testing_data, predictions):
+        print(f"Predicted speech act: {prediction}, Utterance: {utterance}")
