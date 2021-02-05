@@ -36,6 +36,9 @@ class DialogClassifier:
         self.model = self.model.to(my_device)
         self.model.load_state_dict(torch.load(checkpoint_path, map_location=my_device)['state_dict'])
 
+    def get_classes(self):
+        return self.model.classes
+
     def dataloader(self, data):
         if not isinstance(data, list):
             data = list(data)
@@ -73,5 +76,8 @@ if __name__ == '__main__':
     clf = DialogClassifier(checkpoint_path=ckpt_path, config=config, my_device='cpu')
     testing_data = ['Uh-huh.', 'Well, I think its a pretty good idea.', 'Okay.']
     predictions = clf.predict(testing_data)
+    print("-------------------------------------")
+    print("Predicted Speech Act, Utterance")
+    print("-------------------------------------")
     for utterance, prediction in zip(testing_data, predictions):
-        print(f"{utterance}\nPredicted speech act: {prediction}")
+        print(f"{prediction}, {utterance}")
