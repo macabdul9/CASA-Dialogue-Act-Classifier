@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import sys
 import torch
@@ -50,19 +51,28 @@ class DialogClassifier:
 
 
 def main(argv):
+    """
+    Predict speech acts for the utterances in input file
+    :param argv: Takes 1 argument. File with utterances to classify, one per line.
+    :return: Prints file with utterances tagged with speech act
+    """
+
+    input_file = argv[0]
     ckpt_path = 'checkpoints/epoch=28-val_accuracy=0.746056.ckpt'
 
     clf = DialogClassifier(checkpoint_path=ckpt_path, config=config, my_device='cpu')
     classes = clf.get_classes()
     inv_classes = {v: k for k, v in classes.items()}  # Invert classes dictionary
 
-    with open(argv[0], 'r') as fi:
-        utterances = fi.readlines()
+    with open(input_file, 'r') as fi:
+        utterances = fi.read().splitlines()
 
     predictions = clf.predict(utterances)
     predicted_acts = [inv_classes[prediction] for prediction in predictions]
 
-    results = pd.DataFrame(list(zip(utterances, predicted_acts)), columns=["DamslActTag", "Text"])
+    results = pd.DataFrame(list(zip(predicted_acts, utterances)), columns=["DamslActTag", "Text"])
+    filename = os.path.basename(input_file)
+    results.to_csv(os.path.splitext(filename)[0] + ".out", index=False)
 
     print("-------------------------------------")
     print("Predicted Speech Act, Utterance")
