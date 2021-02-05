@@ -74,10 +74,14 @@ if __name__ == '__main__':
     # run_test(ckpt_path, config, device='cpu')
 
     clf = DialogClassifier(checkpoint_path=ckpt_path, config=config, my_device='cpu')
+    classes = clf.get_classes()
+    inv_classes = {v: k for k, v in classes.items()}  # Invert classes dictionary
+
     testing_data = ['Uh-huh.', 'Well, I think its a pretty good idea.', 'Okay.']
     predictions = clf.predict(testing_data)
     print("-------------------------------------")
     print("Predicted Speech Act, Utterance")
     print("-------------------------------------")
+
     for utterance, prediction in zip(testing_data, predictions):
-        print(f"{prediction}, {utterance}")
+        print(f"{inv_classes[prediction]}, {utterance}")
