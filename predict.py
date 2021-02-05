@@ -74,4 +74,4 @@ if __name__ == '__main__':
     testing_data = ['Uh-huh.', 'Well, I think its a pretty good idea.', 'Okay.']
     predictions = clf.predict(testing_data)
     for utterance, prediction in zip(testing_data, predictions):
-        print(f"Predicted speech act: {prediction}, Utterance: {utterance}")
+        print(f"{utterance}\nPredicted speech act: {prediction}")
