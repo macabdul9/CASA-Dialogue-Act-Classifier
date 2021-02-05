@@ -9,6 +9,9 @@ from Trainer import LightningModel
 
 
 class DialogClassifier:
+    """
+    Class to perform inference from a pre-saved checkpoint
+    """
 
     def __init__(self, checkpoint_path, config, my_device='cpu'):
         self.config = config
@@ -58,9 +61,9 @@ def main(argv):
     """
 
     input_file = argv[0]
-    ckpt_path = 'checkpoints/epoch=28-val_accuracy=0.746056.ckpt'
+    ckpt_path = 'checkpoints/epoch=28-val_accuracy=0.746056.ckpt'  # Modify to use your checkpoint
 
-    clf = DialogClassifier(checkpoint_path=ckpt_path, config=config, my_device='cpu')
+    clf = DialogClassifier(checkpoint_path=ckpt_path, config=config, my_device='cpu')  # Choose 'cuda' if desired
     classes = clf.get_classes()
     inv_classes = {v: k for k, v in classes.items()}  # Invert classes dictionary
 
