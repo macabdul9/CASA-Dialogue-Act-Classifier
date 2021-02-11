@@ -37,9 +37,19 @@ if __name__=="__main__":
     # base = ContextAwareDAC()
     # tokenizer = AutoTokenizer.from_pretrained(config['model_name'])
     model = LightningModel(config=config)
-    
+
     if config['restart'] and config['restart_checkpoint']:
-        trainer = pl.Trainer(resume_from_checkpoint=config['restart_checkpoint'])
+        trainer = pl.Trainer(
+            resume_from_checkpoint=config['restart_checkpoint'],
+            logger=logger,
+            gpus=[0],
+            checkpoint_callback=checkpoints,
+            callbacks=[early_stopping],
+            default_root_dir="./models/",
+            max_epochs=config["epochs"],
+            precision=config["precision"],
+            automatic_optimization=True
+        )
     else:
         trainer = pl.Trainer(
             logger=logger,
@@ -51,11 +61,8 @@ if __name__=="__main__":
             precision=config["precision"],
             automatic_optimization=True
         )
-    
+
         
     trainer.fit(model)
     
     trainer.test(model)
-    
-    
-    
