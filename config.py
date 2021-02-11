@@ -31,5 +31,7 @@ config = {
     "average":"micro",
     "epochs":100,
     "device":torch.device("cuda" if torch.cuda.is_available() else "cpu"),
+    "restart":False,
+    "restart_checkpoint":"./checkpoints/epoch=10-val_accuracy=0.720291.ckpt"
     
 }
