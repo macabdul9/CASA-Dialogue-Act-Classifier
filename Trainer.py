@@ -51,7 +51,8 @@ class LightningModel(pl.LightningModule):
         # train_data = load_dataset("csv", data_files=os.path.join(self.config['data_dir'], self.config['dataset'], self.config['dataset']+"_train.csv"))
         train_data = pd.read_csv(os.path.join(self.config['data_dir'], self.config['dataset'], self.config['dataset']+"_train.csv"))
         train_dataset = DADataset(tokenizer=self.tokenizer, data=train_data, max_len=self.config['max_len'], text_field=self.config['text_field'], label_field=self.config['label_field'])
-        train_loader = DataLoader(dataset=train_dataset, batch_size=self.config['batch_size'], shuffle=False, num_workers=self.config['num_workers'])
+        drop_last = True if len(train_dataset.text) % self.config['batch_size'] == 1 else False  # Drop last batch if it cointains a single sample (causes error)
+        train_loader = DataLoader(dataset=train_dataset, batch_size=self.config['batch_size'], shuffle=False, num_workers=self.config['num_workers'], drop_last=drop_last)
         return train_loader
     
     def training_step(self, batch, batch_idx):
@@ -69,7 +70,8 @@ class LightningModel(pl.LightningModule):
         #valid_data = load_dataset("csv", data_files=os.path.join(self.config['data_dir'], self.config['dataset'], self.config['dataset']+"_valid.csv"))
         valid_data = pd.read_csv(os.path.join(self.config['data_dir'], self.config['dataset'], self.config['dataset']+"_valid.csv")) # valid has ~40k samples this is valid is same as test to run it quickely, test has ~16k samples
         valid_dataset = DADataset(tokenizer=self.tokenizer, data=valid_data, max_len=self.config['max_len'], text_field=self.config['text_field'], label_field=self.config['label_field'])
-        valid_loader = DataLoader(dataset=valid_dataset, batch_size=self.config['batch_size'], shuffle=False, num_workers=self.config['num_workers'])
+        drop_last = True if len(valid_dataset.text) % self.config['batch_size'] == 1 else False  # Drop last batch if it cointains a single sample (causes error)
+        valid_loader = DataLoader(dataset=valid_dataset, batch_size=self.config['batch_size'], shuffle=False, num_workers=self.config['num_workers'], drop_last=drop_last)
         return valid_loader
     
     def validation_step(self, batch, batch_idx):
@@ -95,7 +97,8 @@ class LightningModel(pl.LightningModule):
         #test_data = load_dataset("csv", data_files=os.path.join(self.config['data_dir'], self.config['dataset'], self.config['dataset']+"_test.csv"))
         test_data = pd.read_csv(os.path.join(self.config['data_dir'], self.config['dataset'], self.config['dataset']+"_test.csv"))
         test_dataset = DADataset(tokenizer=self.tokenizer, data=test_data, max_len=self.config['max_len'], text_field=self.config['text_field'], label_field=self.config['label_field'])
-        test_loader = DataLoader(dataset=test_dataset, batch_size=self.config['batch_size'], shuffle=False, num_workers=self.config['num_workers'])
+        drop_last = True if len(test_dataset.text) % self.config['batch_size'] == 1 else False  # Drop last batch if it cointains a single sample (causes error)
+        test_loader = DataLoader(dataset=test_dataset, batch_size=self.config['batch_size'], shuffle=False, num_workers=self.config['num_workers'], drop_last=drop_last)
         return test_loader
     
     def test_step(self, batch, batch_idx):
